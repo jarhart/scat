@@ -1,11 +1,8 @@
 package com.jarhart.scat
 
-import org.scalatest.FreeSpec
-import org.scalatest.prop._
-
 import shapeless._
 
-class PrimitivesSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
+class PrimitivesSpec extends UnitSpec {
 
   import Primitives._
 

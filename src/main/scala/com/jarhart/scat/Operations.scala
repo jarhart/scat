@@ -48,4 +48,21 @@ trait Operations extends Primitives {
     x <- pop
     quot <- push(F.div(x, y))
   } yield quot
+
+  def and[S <: HList]: Binary[Boolean, Boolean, S] = for {
+    y <- pop
+    x <- pop
+    prod <- push(x && y)
+  } yield prod
+
+  def or[S <: HList]: Binary[Boolean, Boolean, S] = for {
+    y <- pop
+    x <- pop
+    prod <- push(x || y)
+  } yield prod
+
+  def not[S <: HList]: Unary[Boolean, S] = for {
+    x <- pop
+    prod <- push(!x)
+  } yield prod
 }

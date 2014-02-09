@@ -1,11 +1,8 @@
 package com.jarhart.scat
 
-import org.scalatest.FreeSpec
-import org.scalatest.prop._
-
 import shapeless._
 
-class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
+class OperationsSpec extends UnitSpec {
 
   import Operations._
   import Numeric.FloatIsFractional
@@ -58,7 +55,6 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
     }
   }
 
-
   "div divides the top value on the stack by the one below" in {
     forAll { (x: Float, y: Float, stack: HList) =>
       whenever(y != 0.0) {
@@ -66,6 +62,30 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
           div.run(y :: x :: stack)._2 === (x / y) :: stack
         )
       }
+    }
+  }
+
+  "and logically ANDs the top two values on the stack" in {
+    forAll { (x: Boolean, y: Boolean, stack: HList) =>
+      assert(
+        and.run(y :: x :: stack)._2 === (x && y) :: stack
+      )
+    }
+  }
+
+  "or logically ORs the top two values on the stack" in {
+    forAll { (x: Boolean, y: Boolean, stack: HList) =>
+      assert(
+        or.run(y :: x :: stack)._2 === (x || y) :: stack
+      )
+    }
+  }
+
+  "not logically NOTs the top value on the stack" in {
+    forAll { (x: Boolean, stack: HList) =>
+      assert(
+        not.run(x :: stack)._2 === (!x) :: stack
+      )
     }
   }
 }
