@@ -26,6 +26,30 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
     }
   }
 
+  "eql checks whether the top two values on the stack are equal" in {
+    forAll { (x: Float, y: Float, stack: HList) =>
+      assert(
+        eql.run(y :: x :: stack)._2 === (y == x) :: stack
+      )
+    }
+  }
+
+  "< checks whether the top value on the stack is less than the one below it" in {
+    forAll { (x: Float, y: Float, stack: HList) =>
+      assert(
+        <.run(y :: x :: stack)._2 === (y < x) :: stack
+      )
+    }
+  }
+
+  "> checks whether the top value on the stack is greater than the one below it" in {
+    forAll { (x: Float, y: Float, stack: HList) =>
+      assert(
+        >.run(y :: x :: stack)._2 === (y > x) :: stack
+      )
+    }
+  }
+
   "inc increments the top value on the stack" in {
     forAll { (x: Int, stack: HList) =>
       assert(

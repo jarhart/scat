@@ -6,6 +6,7 @@ object Operations extends Operations
 
 trait Operations extends Primitives {
   import Numeric.Implicits._
+  import Ordering.Implicits._
 
   def dup[A, S <: HList]: Op[A :: S, A :: A :: S, A] = for {
     a <- pop
@@ -19,6 +20,24 @@ trait Operations extends Primitives {
     _ <- push(a)
     _ <- push(b)
   } yield b
+
+  def eql[N, S <: HList](implicit N: Numeric[N]): HBinary[N, N, Boolean, S] = for {
+    y <- pop
+    x <- pop
+    res <- push(y == x)
+  } yield res
+
+  def < [N, S <: HList](implicit N: Numeric[N]): HBinary[N, N, Boolean, S] = for {
+    y <- pop
+    x <- pop
+    res <- push(y < x)
+  } yield res
+
+  def > [N, S <: HList](implicit N: Numeric[N]): HBinary[N, N, Boolean, S] = for {
+    y <- pop
+    x <- pop
+    res <- push(y > x)
+  } yield res
 
   def inc[S <: HList]: Unary[Int, S] = for {
     x <- pop
