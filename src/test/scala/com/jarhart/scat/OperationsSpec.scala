@@ -26,6 +26,22 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
     }
   }
 
+  "inc increments the top value on the stack" in {
+    forAll { (x: Int, stack: HList) =>
+      assert(
+        inc.run(x :: stack)._2 === (x + 1) :: stack
+      )
+    }
+  }
+
+  "dec increments the top value on the stack" in {
+    forAll { (x: Int, stack: HList) =>
+      assert(
+        dec.run(x :: stack)._2 === (x - 1) :: stack
+      )
+    }
+  }
+
   "neg negates the top value on the stack" in {
     forAll { (x: Float, stack: HList) =>
       assert(
