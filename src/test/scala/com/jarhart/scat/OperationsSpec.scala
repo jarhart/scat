@@ -1,11 +1,8 @@
 package com.jarhart.scat
 
-import org.scalatest.FreeSpec
-import org.scalatest.prop._
-
 import shapeless._
 
-class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
+class OperationsSpec extends UnitSpec {
 
   import Operations._
   import Numeric.FloatIsFractional
