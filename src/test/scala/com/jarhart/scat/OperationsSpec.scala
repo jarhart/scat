@@ -26,6 +26,22 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
     }
   }
 
+  "inc increments the top value on the stack" in {
+    forAll { (x: Int, stack: HList) =>
+      assert(
+        inc.run(x :: stack)._2 === (x + 1) :: stack
+      )
+    }
+  }
+
+  "dec increments the top value on the stack" in {
+    forAll { (x: Int, stack: HList) =>
+      assert(
+        dec.run(x :: stack)._2 === (x - 1) :: stack
+      )
+    }
+  }
+
   "neg negates the top value on the stack" in {
     forAll { (x: Float, stack: HList) =>
       assert(
@@ -58,7 +74,6 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
     }
   }
 
-
   "div divides the top value on the stack by the one below" in {
     forAll { (x: Float, y: Float, stack: HList) =>
       whenever(y != 0.0) {
@@ -68,4 +83,15 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
       }
     }
   }
+
+  "mod gives the remainder of dividing the top value on the stack by the one below" in {
+    forAll { (x: Int, y: Int, stack: HList) =>
+      whenever(y != 0.0) {
+        assert(
+          mod.run(y :: x :: stack)._2 === (x % y) :: stack
+        )
+      }
+    }
+  }
+
 }

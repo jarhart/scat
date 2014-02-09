@@ -20,6 +20,16 @@ trait Operations extends Primitives {
     _ <- push(b)
   } yield b
 
+  def inc[S <: HList]: Unary[Int, S] = for {
+    x <- pop
+    res <- push(x + 1)
+  } yield res
+
+  def dec[S <: HList]: Unary[Int, S] = for {
+    x <- pop
+    res <- push(x - 1)
+  } yield res
+
   def neg[N, S <: HList](implicit N: Numeric[N]): Unary[N, S] = for {
     x <- pop
     res <- push(-x)
@@ -48,4 +58,11 @@ trait Operations extends Primitives {
     x <- pop
     quot <- push(F.div(x, y))
   } yield quot
+
+  def mod[S <: HList]: Binary[Int, Int, S] = for {
+    y <- pop
+    x <- pop
+    rem <- push(x % y)
+  } yield rem
+
 }
