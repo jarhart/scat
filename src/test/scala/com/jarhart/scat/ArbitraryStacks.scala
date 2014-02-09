@@ -13,9 +13,9 @@ trait ArbitraryStacks {
     import Gen._
 
     def genStack: Gen[HList] =
-      oneOf(genBookStack, genIntStack, genStringStack, HNil)
+      oneOf(genBooleanStack, genIntStack, genStringStack, HNil)
 
-    def genBookStack: Gen[Boolean :: HList] = for {
+    def genBooleanStack: Gen[Boolean :: HList] = for {
       b <- oneOf(true, false)
       stack <- genStack
     } yield b :: stack
