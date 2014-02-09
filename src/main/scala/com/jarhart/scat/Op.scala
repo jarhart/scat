@@ -17,3 +17,8 @@ case class Op[S1 <: HList, S2 <: HList, A](run: S1 => (A, S2)) {
 
   def >>[S3 <: HList, B](o: => Op[S2, S3, B]): Op[S1, S3, B] = flatMap(_ => o)
 }
+
+object Op {
+  def apply[P <: Product, Ops <: HList, S1 <: HList, S2 <: HList, A](p: P)(implicit gen: Generic.Aux[P, Ops], P: Program[Ops, S1, S2, A]): Op[S1, S2, A] =
+    P.toOp(gen.to(p))
+}
