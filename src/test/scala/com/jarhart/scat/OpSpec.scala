@@ -7,7 +7,7 @@ import shapeless._
 
 class PrimitivesSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
 
-  import Primitives._
+  import Op.Primitives._
 
   "push pushes values onto a stack" in {
     forAll { (x: Int, stack: HList) =>

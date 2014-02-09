@@ -2,7 +2,7 @@ package com.jarhart.scat
 
 import shapeless._
 
-case class Op[S1 <: HList, S2 <: HList, A](run: S1 => (A, S2)) {
+case class Op[S1 <: HList, S2 <: HList, A] private (run: S1 => (A, S2)) {
 
   def apply(s1: S1): (A, S2) = run(s1)
 
@@ -19,6 +19,20 @@ case class Op[S1 <: HList, S2 <: HList, A](run: S1 => (A, S2)) {
 }
 
 object Op {
+
   def apply[P <: Product, Ops <: HList, S1 <: HList, S2 <: HList, A](p: P)(implicit gen: Generic.Aux[P, Ops], P: Program[Ops, S1, S2, A]): Op[S1, S2, A] =
     P.toOp(gen.to(p))
+
+  object Primitives extends Primitives
+
+  trait Primitives {
+
+    def push[A, S <: HList](a: A) = Op[S, A :: S, A] {
+      s => (a, a :: s)
+    }
+
+    def pop[A, S <: HList] = Op[A :: S, S, A] {
+      case a :: s => (a, s)
+    }
+  }
 }
