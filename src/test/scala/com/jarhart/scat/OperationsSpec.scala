@@ -74,7 +74,6 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
     }
   }
 
-
   "div divides the top value on the stack by the one below" in {
     forAll { (x: Float, y: Float, stack: HList) =>
       whenever(y != 0.0) {
@@ -84,4 +83,15 @@ class OperationsSpec extends FreeSpec with PropertyChecks with ArbitraryStacks {
       }
     }
   }
+
+  "mod gives the remainder of dividing the top value on the stack by the one below" in {
+    forAll { (x: Int, y: Int, stack: HList) =>
+      whenever(y != 0.0) {
+        assert(
+          mod.run(y :: x :: stack)._2 === (x % y) :: stack
+        )
+      }
+    }
+  }
+
 }

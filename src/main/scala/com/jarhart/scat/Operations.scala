@@ -58,4 +58,11 @@ trait Operations extends Primitives {
     x <- pop
     quot <- push(F.div(x, y))
   } yield quot
+
+  def mod[S <: HList]: Binary[Int, Int, S] = for {
+    y <- pop
+    x <- pop
+    rem <- push(x % y)
+  } yield rem
+
 }
