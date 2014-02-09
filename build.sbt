@@ -19,4 +19,5 @@ initialCommands := """
 import com.jarhart.scat._
 import shapeless._
 import Examples._
+import Numeric.FloatIsFractional
 """
